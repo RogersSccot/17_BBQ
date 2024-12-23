@@ -44,9 +44,11 @@ for Nseed in range(100):
             duration = TotTime*ms
 
             '''
-            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系
+            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
             dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
+            这里的w大概对应神经元的适应程度
             dw/dt = (a*(v-El)-w)/tau_w:ampere
+            这里表述两个电导随时间变化的关系（单位是西门子）
             dGsynI/dt = -GsynI/Tsyn : siemens
             dGsynE/dt = -GsynE/Tsyn : siemens
             Is:ampere

@@ -51,6 +51,7 @@ for Nseed in range(100):
             这里表述两个电导随时间变化的关系（单位是西门子）
             dGsynI/dt = -GsynI/Tsyn : siemens
             dGsynE/dt = -GsynE/Tsyn : siemens
+            后面是很多其余对应的参数单位
             Is:ampere
             Cm:farad
             gl:siemens
@@ -84,7 +85,7 @@ for Nseed in range(100):
             '''#% neuron_params
 
         # Populations----------------------------------------------------------------------------------
-
+            # 这里依据之前建立的Adex模型来构建完整的神经元网络，其中FS表示抑制性的神经元，RS为兴奋性的神经元
         # Population 1 - FS
             b1 = 0.0*pA
             G1 = NeuronGroup(N1, eqs, threshold='v > -47.5*mV', reset='v = -65*mV', refractory='5*ms', method='heun')

@@ -130,12 +130,13 @@ for Nseed in range(100):
     
     
             # external drive and seizure-like perturabation----------------------------------------------
+            # 这里是仿真时使用的核函数
             AmpStim=NAmp*5.+60  #80. #92.
             plat = 1000
             def heaviside(x):
                 return 0.5 * (1 + np.sign(x))
     
-    
+            # 定义相应的输入脉冲
             def input_rate(t, t1_exc, tau1_exc, tau2_exc, ampl_exc, plateau):
                     # t1_exc=10. # time of the maximum of external stimulation
                     # tau1_exc=20. # first time constant of perturbation = rising time
@@ -159,7 +160,7 @@ for Nseed in range(100):
     
             Qi=5.0*nS
             Qe=1.5*nS
-    
+            # 神经元之间互连的连接条件
             prbC= 0.05 #0.05
             prbC2= 0.05#0.065
             S_12 = Synapses(G1, G2, on_pre='GsynI_post+=Qi') #'v_post -= 1.*mV')
@@ -184,6 +185,7 @@ for Nseed in range(100):
             S_ed_ex.connect(p=prbC)#0.05)
 
             # monitor tools to record during simulation-------------------------------------------------
+            # 建立监视器用于记录数据
             #FRG1 = PopulationRateMonitor(G1)
             FRG2 = PopulationRateMonitor(G2)
             FRPed= PopulationRateMonitor(P_ed)

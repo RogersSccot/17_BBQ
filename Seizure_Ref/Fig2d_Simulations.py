@@ -43,28 +43,9 @@ for Nseed in range(100):
             TotTime=4000
             duration = TotTime*ms
 
-            # 这是一个Adex神经元模型，其考虑了神经元对于突出电流的响应以及其自适应能力
-            '''
-            这里对应原文中的公式1,对应膜电位v,时间t,突触电导GsynE,GsynI,
-            dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
-            dw/dt = (a*(v-El)-w)/tau_w:ampere
-            dGsynI/dt = -GsynI/Tsyn : siemens
-            dGsynE/dt = -GsynE/Tsyn : siemens
-            Is:ampere
-            Cm:farad
-            gl:siemens
-            El:volt
-            a:siemens
-            tau_w:second
-            Dt:volt
-            Vt:volt
-            Ee:volt
-            Ei:volt
-            Tsyn:second
-            equation of the AdEx Model with "conductance-based" model of synapses 
-            '''
-            # 上面是对于AdEx模型中各个参数的说明
 
+
+       # equation of the AdEx Model with "conductance-based" model of synapses 
             eqs='''
             dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
             dw/dt = (a*(v-El)-w)/tau_w:ampere

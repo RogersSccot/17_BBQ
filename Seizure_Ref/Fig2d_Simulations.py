@@ -4,38 +4,67 @@
 # Seizure-like propagation in spiking network models       #
 ############################################################
 
-
 from brian2 import *
 import numpy as np
 from datetime import datetime
 
 #function use firing rate calculation
+# array表示在一个特定时间内的激活时间
+# bin表示时间间隔，
+# time_array表示时间序列，里面是每个时间点的时间，
 def bin_array(array, BIN, time_array):
+    # N0表示每个bin内的时间点个数
     N0 = int(BIN/(time_array[1]-time_array[0]))
+    # N1表示在整个time_array以内，所包含的Bin的数目
     N1 = int((time_array[-1]-time_array[0])/BIN)
+    # 返回一个序列内激活次数的平均值
     return array[:N0*N1].reshape((N1,N0)).mean(axis=1)
 
-
+# 随机数种子
 for Nseed in range(100):
+    # 输入刺激的强度
     for NAmp in range(10):
+        # 输入噪声的强度
         for NbS in range(10):
             NbSim=NbS
             Nsim=NbS
 
+            # 设置随机数种子，同时开启新的作用域
             seed(Nseed)
             start_scope()
+
+            # 设计模拟时间的步长以及对应的神经元个数
             DT=0.1
             defaultclock.dt = DT*ms
             N1 = 2000#2000
             N2 = 8000#8000
 
-
+            # 设置模拟时间
             TotTime=4000
             duration = TotTime*ms
 
+            # 这是一个Adex神经元模型，其考虑了神经元对于突出电流的响应以及其自适应能力
+            '''
+            这里对应原文中的公式1,对应膜电位v,时间t,突触电导GsynE,GsynI,
+            dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
+            dw/dt = (a*(v-El)-w)/tau_w:ampere
+            dGsynI/dt = -GsynI/Tsyn : siemens
+            dGsynE/dt = -GsynE/Tsyn : siemens
+            Is:ampere
+            Cm:farad
+            gl:siemens
+            El:volt
+            a:siemens
+            tau_w:second
+            Dt:volt
+            Vt:volt
+            Ee:volt
+            Ei:volt
+            Tsyn:second
+            equation of the AdEx Model with "conductance-based" model of synapses 
+            '''
+            # 上面是对于AdEx模型中各个参数的说明
 
-
-       # equation of the AdEx Model with "conductance-based" model of synapses 
             eqs='''
             dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
             dw/dt = (a*(v-El)-w)/tau_w:ampere

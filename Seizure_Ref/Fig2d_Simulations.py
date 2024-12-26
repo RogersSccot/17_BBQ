@@ -209,7 +209,7 @@ for Nseed in range(100):
             LfrPed=np.array(FRPed.rate/Hz)
             TimBinned,popRatePed=bin_array(time_array, BIN, time_array),bin_array(LfrPed, BIN, time_array)
 
-            np.save('Results/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
+            np.save('/home/saluo/Soft_Ware/17_BBQ/Seizure_Ref/Results2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
      
 
 

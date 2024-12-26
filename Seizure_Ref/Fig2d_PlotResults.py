@@ -9,8 +9,6 @@ import numpy as np
 from brian2 import *
 from datetime import datetime
 
-# /home/saluo/Soft_Ware/17_BBQ/Seizure_Ref/Results/AD_popRateExc_Sim_20.0_Amp_0Nseed_0.npy
-
 NProp1=[]
 a=0
 for NAmp in range(10):
@@ -30,7 +28,6 @@ for NAmp in range(10):
                 NProp1[a][b]=NProp1[a][b]+1 
         b=b+1
     a=a+1   
-
 
 NProp=np.array(NProp1[::-1])
 

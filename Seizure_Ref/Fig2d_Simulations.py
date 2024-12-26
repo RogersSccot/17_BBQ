@@ -44,11 +44,14 @@ for Nseed in range(100):
             duration = TotTime*ms
 
             '''
-            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系
+            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
             dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
+            这里的w大概对应神经元的适应程度
             dw/dt = (a*(v-El)-w)/tau_w:ampere
+            这里表述两个电导随时间变化的关系（单位是西门子）
             dGsynI/dt = -GsynI/Tsyn : siemens
             dGsynE/dt = -GsynE/Tsyn : siemens
+            后面是很多其余对应的参数单位
             Is:ampere
             Cm:farad
             gl:siemens
@@ -82,7 +85,7 @@ for Nseed in range(100):
             '''#% neuron_params
 
         # Populations----------------------------------------------------------------------------------
-
+            # 这里依据之前建立的Adex模型来构建完整的神经元网络，其中FS表示抑制性的神经元，RS为兴奋性的神经元
         # Population 1 - FS
             b1 = 0.0*pA
             G1 = NeuronGroup(N1, eqs, threshold='v > -47.5*mV', reset='v = -65*mV', refractory='5*ms', method='heun')
@@ -127,12 +130,13 @@ for Nseed in range(100):
     
     
             # external drive and seizure-like perturabation----------------------------------------------
+            # 这里是仿真时使用的核函数
             AmpStim=NAmp*5.+60  #80. #92.
             plat = 1000
             def heaviside(x):
                 return 0.5 * (1 + np.sign(x))
     
-    
+            # 定义相应的输入脉冲
             def input_rate(t, t1_exc, tau1_exc, tau2_exc, ampl_exc, plateau):
                     # t1_exc=10. # time of the maximum of external stimulation
                     # tau1_exc=20. # first time constant of perturbation = rising time
@@ -156,7 +160,7 @@ for Nseed in range(100):
     
             Qi=5.0*nS
             Qe=1.5*nS
-    
+            # 神经元之间互连的连接条件
             prbC= 0.05 #0.05
             prbC2= 0.05#0.065
             S_12 = Synapses(G1, G2, on_pre='GsynI_post+=Qi') #'v_post -= 1.*mV')
@@ -181,6 +185,7 @@ for Nseed in range(100):
             S_ed_ex.connect(p=prbC)#0.05)
 
             # monitor tools to record during simulation-------------------------------------------------
+            # 建立监视器用于记录数据
             #FRG1 = PopulationRateMonitor(G1)
             FRG2 = PopulationRateMonitor(G2)
             FRPed= PopulationRateMonitor(P_ed)

@@ -128,7 +128,6 @@ for Nseed in range(100):
             G2.Ei=-80.*mV
             G2.Tsyn=5.*ms
     
-    
             # external drive and seizure-like perturabation----------------------------------------------
             # 这里是仿真时使用的核函数
             AmpStim=NAmp*5.+60  #80. #92.
@@ -146,7 +145,6 @@ for Nseed in range(100):
                                   heaviside(-(t - (t1_exc+plateau))) * heaviside(t - (t1_exc))+ \
                                   np.exp(-(t - (t1_exc+plateau)) ** 2 / (2. * tau2_exc ** 2)) * heaviside(t - (t1_exc+plateau)))
                 return inp
-    
     
             t2 = np.arange(0, TotTime, DT)
             test_input = []
@@ -174,9 +172,6 @@ for Nseed in range(100):
     
             S_22 = Synapses(G2, G2, on_pre='GsynE_post+=Qe')
             S_22.connect('i!=j', p=prbC)
-
-
-
 
             S_ed_in = Synapses(P_ed, G1, on_pre='GsynE_post+=Qe')
             S_ed_in.connect(p=prbC2)
@@ -211,14 +206,3 @@ for Nseed in range(100):
 
             np.save('/home/saluo/Soft_Ware/17_BBQ/Seizure_Ref/Results2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
      
-
-
-
-
-
-
-
-
-
-
-

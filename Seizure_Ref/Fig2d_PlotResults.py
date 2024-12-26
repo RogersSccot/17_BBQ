@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from brian2 import *
 from datetime import datetime
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = '/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms'
 
 NProp1=[]
 a=0
@@ -30,7 +32,6 @@ for NAmp in range(10):
     a=a+1   
 
 NProp=np.array(NProp1[::-1])
-
 plt.imshow(NProp[2:10])
 x = np.array([int(NAmp*5.+60) for NAmp in range(10)])
 y = np.array([int(20.+8*NbS) for NbS in range(8)][::-1])

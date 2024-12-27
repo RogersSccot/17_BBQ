@@ -44,4 +44,3 @@ plt.ylabel(r'Slope, $\tau$ (ms)')
 clb=plt.colorbar(orientation='vertical', fraction=0.038)
 clb.set_label('number of Non-Propagations', labelpad=-0, y=0.5, rotation=90)
 plt.show()
-

@@ -43,27 +43,25 @@ for Nseed in range(100):
             TotTime=4000
             duration = TotTime*ms
 
-            '''
-            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
-            dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
-            这里的w大概对应神经元的适应程度
-            dw/dt = (a*(v-El)-w)/tau_w:ampere
-            这里表述两个电导随时间变化的关系（单位是西门子）
-            dGsynI/dt = -GsynI/Tsyn : siemens
-            dGsynE/dt = -GsynE/Tsyn : siemens
-            后面是很多其余对应的参数单位
-            Is:ampere
-            Cm:farad
-            gl:siemens
-            El:volt
-            a:siemens
-            tau_w:second
-            Dt:volt
-            Vt:volt
-            Ee:volt
-            Ei:volt
-            Tsyn:second   
-            '''
+            # 描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
+            # dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
+            # 这里的w大概对应神经元的适应程度
+            # dw/dt = (a*(v-El)-w)/tau_w:ampere
+            # 这里表述两个电导随时间变化的关系（单位是西门子）
+            # dGsynI/dt = -GsynI/Tsyn : siemens
+            # dGsynE/dt = -GsynE/Tsyn : siemens
+            # 后面是很多其余对应的参数单位
+            # Is:ampere
+            # Cm:farad
+            # gl:siemens
+            # El:volt
+            # a:siemens
+            # tau_w:second
+            # Dt:volt
+            # Vt:volt
+            # Ee:volt
+            # Ei:volt
+            # Tsyn:second   
 
        # equation of the AdEx Model with "conductance-based" model of synapses 
             eqs='''

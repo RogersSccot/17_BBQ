@@ -43,27 +43,25 @@ for Nseed in range(100):
             TotTime=4000
             duration = TotTime*ms
 
-            '''
-            描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
-            dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
-            这里的w大概对应神经元的适应程度
-            dw/dt = (a*(v-El)-w)/tau_w:ampere
-            这里表述两个电导随时间变化的关系（单位是西门子）
-            dGsynI/dt = -GsynI/Tsyn : siemens
-            dGsynE/dt = -GsynE/Tsyn : siemens
-            后面是很多其余对应的参数单位
-            Is:ampere
-            Cm:farad
-            gl:siemens
-            El:volt
-            a:siemens
-            tau_w:second
-            Dt:volt
-            Vt:volt
-            Ee:volt
-            Ei:volt
-            Tsyn:second   
-            '''
+            # 描述膜外电压v与时间t的关系,其中包含电导GsynE,GsynI的许多关系，这里对应论文里面的公式（1），单位为伏特
+            # dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
+            # 这里的w大概对应神经元的适应程度
+            # dw/dt = (a*(v-El)-w)/tau_w:ampere
+            # 这里表述两个电导随时间变化的关系（单位是西门子）
+            # dGsynI/dt = -GsynI/Tsyn : siemens
+            # dGsynE/dt = -GsynE/Tsyn : siemens
+            # 后面是很多其余对应的参数单位
+            # Is:ampere
+            # Cm:farad
+            # gl:siemens
+            # El:volt
+            # a:siemens
+            # tau_w:second
+            # Dt:volt
+            # Vt:volt
+            # Ee:volt
+            # Ei:volt
+            # Tsyn:second   
 
        # equation of the AdEx Model with "conductance-based" model of synapses 
             eqs='''
@@ -128,7 +126,6 @@ for Nseed in range(100):
             G2.Ei=-80.*mV
             G2.Tsyn=5.*ms
     
-    
             # external drive and seizure-like perturabation----------------------------------------------
             # 这里是仿真时使用的核函数
             AmpStim=NAmp*5.+60  #80. #92.
@@ -146,7 +143,6 @@ for Nseed in range(100):
                                   heaviside(-(t - (t1_exc+plateau))) * heaviside(t - (t1_exc))+ \
                                   np.exp(-(t - (t1_exc+plateau)) ** 2 / (2. * tau2_exc ** 2)) * heaviside(t - (t1_exc+plateau)))
                 return inp
-    
     
             t2 = np.arange(0, TotTime, DT)
             test_input = []
@@ -174,9 +170,6 @@ for Nseed in range(100):
     
             S_22 = Synapses(G2, G2, on_pre='GsynE_post+=Qe')
             S_22.connect('i!=j', p=prbC)
-
-
-
 
             S_ed_in = Synapses(P_ed, G1, on_pre='GsynE_post+=Qe')
             S_ed_in.connect(p=prbC2)
@@ -209,16 +202,5 @@ for Nseed in range(100):
             LfrPed=np.array(FRPed.rate/Hz)
             TimBinned,popRatePed=bin_array(time_array, BIN, time_array),bin_array(LfrPed, BIN, time_array)
 
-            np.save('Results/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
+            np.save('/home/saluo/Soft_Ware/17_BBQ/Seizure_Ref/Results2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
      
-
-
-
-
-
-
-
-
-
-
-

@@ -48,6 +48,7 @@ for Nseed in range(100):
             # 这里的w大概对应神经元的适应程度
             # dw/dt = (a*(v-El)-w)/tau_w:ampere
             # 这里表述两个电导随时间变化的关系（单位是西门子）
+            # GsynI: 抑制性输入的权重；GsynE: 兴奋性输入的权重
             # dGsynI/dt = -GsynI/Tsyn : siemens
             # dGsynE/dt = -GsynE/Tsyn : siemens
             # 后面是很多其余对应的参数单位
@@ -86,10 +87,14 @@ for Nseed in range(100):
             # 这里依据之前建立的Adex模型来构建完整的神经元网络，其中FS表示抑制性的神经元，RS为兴奋性的神经元
         # Population 1 - FS
             b1 = 0.0*pA
+        # eqs表示神经元的动态方程，threshold表示神经元被触发的阈值，reset表示神经元被重置的值，refractory表示神经元的不应期，method表示使用的积分方式
             G1 = NeuronGroup(N1, eqs, threshold='v > -47.5*mV', reset='v = -65*mV', refractory='5*ms', method='heun')
-        #init:
+        #init（初始化）:
+            # 初始化电位
             G1.v = -65*mV
+            # 初始化自适应参数
             G1.w = 0.0*pA
+            # 
             G1.GsynI=0.0*nS
             G1.GsynE=0.0*nS
         #parameters

@@ -21,9 +21,7 @@ for NAmp in range(10):
         for Nseed in range(100):
             NbSim=NbS
             Nsim=NbS
-
             FRexc1 = np.load('Results/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy')
-
             if max(FRexc1)>(AmpStim):
                 NProp1[a][b]=NProp1[a][b]+1 
         b=b+1

@@ -94,21 +94,32 @@ for Nseed in range(100):
             G1.v = -65*mV
             # 初始化自适应参数
             G1.w = 0.0*pA
-            # 
+            # 抑制性输入的权重与兴奋性输入的权重初始化
             G1.GsynI=0.0*nS
             G1.GsynE=0.0*nS
         #parameters
+        # 这里是神经元的参数设置
+            # 膜电容
             G1.Cm = 200.*pF
+            # 漏电流上的电导
             G1.gl = 10.*nS
+            # 静息电位
             G1.El = -65.*mV
+            # 电位兴奋阈值
             G1.Vt = -48.*mV
+            # 膜电位动态阈值
             G1.Dt = 0.5*mV
+            # 自适应变量时间常数
             G1.tau_w = 1.0*ms
+            # 自适应系数
             G1.a = 0.0*nS
+            # 外部突触输入输入
             G1.Is = 0.0 
-
+            # 兴奋性输入
             G1.Ee=0.*mV
+            # 抑制性输入
             G1.Ei=-80.*mV
+            # 传递延迟
             G1.Tsyn=5.*ms
 
         # Population 2 - RS
@@ -132,8 +143,9 @@ for Nseed in range(100):
             G2.Tsyn=5.*ms
     
             # external drive and seizure-like perturabation----------------------------------------------
-            # 这里是仿真时使用的核函数
+            # AmpStim输入刺激的强度
             AmpStim=NAmp*5.+60  #80. #92.
+            # 输入刺激的持续平台期
             plat = 1000
             def heaviside(x):
                 return 0.5 * (1 + np.sign(x))

@@ -151,6 +151,7 @@ for Nseed in range(100):
                 return 0.5 * (1 + np.sign(x))
     
             # 定义相应的输入脉冲
+            # 这里的脉冲函数的表达式不太清楚具体原理（主要目的就是输入脉冲）
             def input_rate(t, t1_exc, tau1_exc, tau2_exc, ampl_exc, plateau):
                     # t1_exc=10. # time of the maximum of external stimulation
                     # tau1_exc=20. # first time constant of perturbation = rising time
@@ -161,51 +162,67 @@ for Nseed in range(100):
                                   np.exp(-(t - (t1_exc+plateau)) ** 2 / (2. * tau2_exc ** 2)) * heaviside(t - (t1_exc+plateau)))
                 return inp
     
+            # 创建仿真时间序列
             t2 = np.arange(0, TotTime, DT)
             test_input = []
+            # 输入的噪声强度
             TauP=20.+8*NbS
+            # 将时间点，噪声，输入刺激，输入刺激的平台期产生对应时间的脉冲
             for ji in t2:
                 test_input.append(6.+input_rate(ji, 2000., TauP, TauP, AmpStim, plat))
+            # 创建一个时间序列的脉冲充当刺激
             stimulus=TimedArray(test_input*Hz, dt=DT*ms)
+            # 创建神经元组
             P_ed=PoissonGroup(8000, rates='stimulus(t)') #, dt=0.01*ms)
     
             # connections-----------------------------------------------------------------------------
     
+            # 单位是n西门子
             Qi=5.0*nS
             Qe=1.5*nS
-            # 神经元之间互连的连接条件
+            # 神经元之间互连的概率
             prbC= 0.05 #0.05
-            prbC2= 0.05#0.065
+            prbC2= 0.05 #0.065
+            # 创建G1到G2之间神经元的突触，命名为S_12
+            # G1是抑制性的，G2是兴奋性的
+            # 这里的on_pre表示当前突触神经元发生后，后突触神经元电导将增加Qi
             S_12 = Synapses(G1, G2, on_pre='GsynI_post+=Qi') #'v_post -= 1.*mV')
+            # 神经元之间不自连，连接的概率为prbC
             S_12.connect('i!=j', p=prbC)
     
             S_11 = Synapses(G1, G1, on_pre='GsynI_post+=Qi')
             S_11.connect('i!=j',p=prbC)
     
+            # 这里的on_pre表示当前突触神经元发生后，后突触神经元电导将增加Qe
             S_21 = Synapses(G2, G1, on_pre='GsynE_post+=Qe')
             S_21.connect('i!=j',p=prbC)
     
             S_22 = Synapses(G2, G2, on_pre='GsynE_post+=Qe')
             S_22.connect('i!=j', p=prbC)
 
+            # 这里是G1到P_ed的突触，命名为S_ed_in
+            # 一但前面的神经元发出了动作电位，后面的神经元的电导将增加Qe
             S_ed_in = Synapses(P_ed, G1, on_pre='GsynE_post+=Qe')
             S_ed_in.connect(p=prbC2)
     
+            # 这里是G2到P_ed的突触，命名为S_ed_ex
             S_ed_ex = Synapses(P_ed, G2, on_pre='GsynE_post+=Qe')
             S_ed_ex.connect(p=prbC)#0.05)
 
             # monitor tools to record during simulation-------------------------------------------------
             # 建立监视器用于记录数据
             #FRG1 = PopulationRateMonitor(G1)
+            # 建立monitor来记录神经元动作电位的发放率
             FRG2 = PopulationRateMonitor(G2)
             FRPed= PopulationRateMonitor(P_ed)
 
             # Run the simulation ----------------------------------------------------------------------
+            # Sim表示本次仿真的序列
             Sim=(Nseed+1)*(NAmp+1)*(NbS+1)
             print("Starts Time:", datetime.now())
             print('Starts simulation #'+str(Sim))
             run(duration)
-            print('Ends simulation #'+str(Sim)) 
+            print('Ends simulation #'+str(Sim))
             print("Ends Time:", datetime.now())
 
             # Prepare and save data---------------------------------------------------------------------
@@ -215,9 +232,10 @@ for Nseed in range(100):
             #LfrG1=np.array(FRG1.rate/Hz)
             #TimBinned,popRateG1=bin_array(time_array, BIN, time_array),bin_array(LfrG1, BIN, time_array)
             LfrG2=np.array(FRG2.rate/Hz)
+            # bin_array将序列分组并计算每组的平均值
             TimBinned,popRateG2=bin_array(time_array, BIN, time_array),bin_array(LfrG2, BIN, time_array)
             LfrPed=np.array(FRPed.rate/Hz)
             TimBinned,popRatePed=bin_array(time_array, BIN, time_array),bin_array(LfrPed, BIN, time_array)
 
-            np.save('Results2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
+            np.save('Seizure_Ref/Results2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
      

@@ -5,21 +5,19 @@ from brian2 import *
 import scipy.fftpack
 
 
-# 随机数种子
+
 for Nseed in range(50):
-    # 输入的噪声
     for NbS in range(20):
         NbSim=NbS
         Nsim=NbS
         print('simulation #'+str(NbSim*Nseed))
-        # 反应一段时间内的神经元激活次数
         def bin_array(array, BIN, time_array):
             N0 = int(BIN/(time_array[1]-time_array[0]))
             N1 = int((time_array[-1]-time_array[0])/BIN)
             return array[:N0*N1].reshape((N1,N0)).mean(axis=1)
 
-        # LT=-50.+Nsim/2.
-        # Nseed=1
+   # LT=-50.+Nsim/2.
+      #  Nseed=1
         seed(Nseed)
         start_scope()
         DT=0.1
@@ -34,7 +32,7 @@ for Nseed in range(50):
 
 
         #neuron_params={'gl':2.0,'El':-60.e-3,'a':0.5,'tau_w':100,'Dt':2.0, 'Vt':0}  ####### -GsynE*(v-Ee)-GsynI*(v-Ei)
-        # 这里是神经元CAdEx的模型
+
         eqs=eqs='''
         dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w*(v-Ea) + Is)/Cm : volt (unless refractory)
         dw/dt = (ga/(1.0+exp((Vc-v)/Vd))-w)/tau_w:siemens
@@ -60,9 +58,9 @@ for Nseed in range(50):
         #NAME=='FS-cell':
         #params = {'name':name, 'N':number,\
         #                  'Gl':10., 'Cm':200.,'Trefrac':5,\
-        #                  'El':-65., 'Vthre':-50., 'Vreset':-65., 'delta_v':0.5,'ampnoise':0.,\
+    #                      'El':-65., 'Vthre':-50., 'Vreset':-65., 'delta_v':0.5,'ampnoise':0.,\
         #                  'a':0., 'b': 0., 'tauw':1e9}
-        #NAME=='RS-cell':
+    #NAME=='RS-cell':
         #params = {'name':name, 'N':number,\
         #                  'Gl':10., 'Cm':200.,'Trefrac':5,\
         #                  'El’:-65., 'Vthre':-50., 'Vreset':-65., 'delta_v':2.,'ampnoise':0.,\
@@ -148,7 +146,7 @@ for Nseed in range(50):
             test_input.append(6.+input_rate(ji, 1000., TauP, TauP, AmpStim, plat))
 
         stimulus=TimedArray(test_input*Hz, dt=DT*ms)
-        #  print(max(test_input))
+  #  print(max(test_input))
         P_ed=PoissonGroup(8000, rates='stimulus(t)')
 
         # connections-----------------------------------------------------------------------------
@@ -233,25 +231,25 @@ for Nseed in range(50):
         print('--##Start simulation##--')
         run(duration)#1500*ms)#2020*ms)#1250*ms)
         print('--##End simulation##--')
-        # Nbsyn=int(0.05*len(S_22.GsynE))
-        # print(Nbsyn)
-        # S_22.GsynE[0:Nbsyn]=0.*nS
+   # Nbsyn=int(0.05*len(S_22.GsynE))
+   # print(Nbsyn)
+   # S_22.GsynE[0:Nbsyn]=0.*nS
         #S_22.GsynE=0.*nS
-        # print(S_22.GsynE)
+   # print(S_22.GsynE)
 
-        # print('--##Start simulation##--')
-        # run(3500*ms) #3500*ms)#2980*ms)#3750*ms)
-        # print('--##End simulation##--')
+   # print('--##Start simulation##--')
+   # run(3500*ms) #3500*ms)#2980*ms)#3750*ms)
+   # print('--##End simulation##--')
 
         # Plots -------------------------------------------------------------------------------
         #trainG1=M1G1.spike_trains()
         #isi_mu_G1=[]
         #isi_std_G1=[]
         #for i in range(N1):
-        #    Tr=diff(trainG1[i])
-        #    if len(Tr)!=0:
-        #        isi_mu_G1.append(mean(Tr))
-        #        isi_std_G1.append(std(Tr))
+         #   Tr=diff(trainG1[i])
+         #   if len(Tr)!=0:
+     #       isi_mu_G1.append(mean(Tr))
+         #       isi_std_G1.append(std(Tr))
 
         #fig3=plt.figure(figsize=(12,4))
         #ax33=fig3.add_subplot(111)

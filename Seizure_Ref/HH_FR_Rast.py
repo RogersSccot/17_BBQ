@@ -4,6 +4,9 @@ import numpy as np
 from brian2 import *
 import scipy.fftpack
 
+np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/HHconnect_seed'+'Try'+'.npy',[1])
+
+
 def bin_array(array, BIN, time_array):
     N0 = int(BIN/(time_array[1]-time_array[0]))
     N1 = int((time_array[-1]-time_array[0])/BIN)
@@ -284,11 +287,11 @@ for Nseed in [1]: #[i for i in range(5)]:
           #  plt.plot(TimBinned, popRateG1, 'r')
           #  plt.plot(TimBinned, popRatePed, 'b')
           #  plt.show()
-            np.save('ResultsHH2/AD_spikeInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', RasG1)
-            np.save('ResultsHH2/AD_spikeExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', RasG2)
-            np.save('ResultsHH2/AD_popRateInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG1)
-            np.save('ResultsHH2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
-            np.save('ResultsHH2/AD_popRatePed_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRatePed)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/AD_spikeInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', RasG1)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/AD_spikeExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', RasG2)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/AD_popRateInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG1)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/AD_popRateExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRateG2)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/AD_popRatePed_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'Nseed_'+str(Nseed)+'.npy', popRatePed)
 
             connexions = {"Poisson to inhib": np.column_stack((S_ed_in.i, S_ed_in.j)), \
                       "Poisson to exc": np.column_stack((S_ed_ex.i, S_ed_ex.j)), \
@@ -298,12 +301,12 @@ for Nseed in [1]: #[i for i in range(5)]:
                       "S_22": np.column_stack((S_22.i, S_22.j))}
 
  
-            np.save('ResultsHH2/HHconnect_seed'+str(Nseed)+'_Amp_'+str(AmpStim)+'_Tau_'+str(TauP)+'.npy',connexions)
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/HHconnect_seed'+str(Nseed)+'_Amp_'+str(AmpStim)+'_Tau_'+str(TauP)+'.npy',connexions)
 
             sp_t1=M1G1.spike_trains()
             sp_t2=M1G2.spike_trains()
             sp_t3=M1Ped.spike_trains()
-            np.save('ResultsHH2/HHSpikeTrains_seed'+str(Nseed)+'_Amp_'+str(AmpStim)+'_Tau_'+str(TauP)+'.npy',[sp_t1,sp_t2,sp_t3])
+            np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/HHSpikeTrains_seed'+str(Nseed)+'_Amp_'+str(AmpStim)+'_Tau_'+str(TauP)+'.npy',[sp_t1,sp_t2,sp_t3])
        # np.save('Results/AD_GtotInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', monGinh.Gtot[0])
        # np.save('Results/AD_GtotExc_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', monGexc.Gtot[0])
        # np.save('Results/AD_VtotInh_Sim_'+str(TauP)+'_Amp_'+str(NAmp)+'.npy', MVinh.Vtot[0])

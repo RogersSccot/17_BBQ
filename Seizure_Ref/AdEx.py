@@ -64,7 +64,7 @@ for Nseed in range(100):
             # Ei:volt
             # Tsyn:second   
 
-       # equation of the AdEx Model with "conductance-based" model of synapses 
+            # equation of the AdEx Model with "conductance-based" model of synapses 
             eqs='''
             dv/dt = (-GsynE*(v-Ee)-GsynI*(v-Ei)-gl*(v-El)+ gl*Dt*exp((v-Vt)/Dt)-w + Is)/Cm : volt (unless refractory)
             dw/dt = (a*(v-El)-w)/tau_w:ampere
@@ -83,13 +83,13 @@ for Nseed in range(100):
             Tsyn:second
             '''#% neuron_params
 
-        # Populations----------------------------------------------------------------------------------
+            # Populations----------------------------------------------------------------------------------
             # 这里依据之前建立的Adex模型来构建完整的神经元网络，其中FS表示抑制性的神经元，RS为兴奋性的神经元
-        # Population 1 - FS
+            # Population 1 - FS
             b1 = 0.0*pA
-        # eqs表示神经元的动态方程，threshold表示神经元被触发的阈值，reset表示神经元被重置的值，refractory表示神经元的不应期，method表示使用的积分方式
+            # eqs表示神经元的动态方程，threshold表示神经元被触发的阈值，reset表示神经元被重置的值，refractory表示神经元的不应期，method表示使用的积分方式
             G1 = NeuronGroup(N1, eqs, threshold='v > -47.5*mV', reset='v = -65*mV', refractory='5*ms', method='heun')
-        #init（初始化）:
+            #init（初始化）:
             # 初始化电位
             G1.v = -65*mV
             # 初始化自适应参数
@@ -97,8 +97,8 @@ for Nseed in range(100):
             # 抑制性输入的权重与兴奋性输入的权重初始化
             G1.GsynI=0.0*nS
             G1.GsynE=0.0*nS
-        #parameters
-        # 这里是神经元的参数设置
+            #parameters
+            # 这里是神经元的参数设置
             # 膜电容
             G1.Cm = 200.*pF
             # 漏电流上的电导
@@ -122,7 +122,7 @@ for Nseed in range(100):
             # 传递延迟
             G1.Tsyn=5.*ms
 
-        # Population 2 - RS
+            # Population 2 - RS
             b2 = 100.*pA
             G2 = NeuronGroup(N2, eqs, threshold='v > -40.*mV', reset='v = -65*mV; w += b2', refractory='5*ms',  method='heun')
             G2.v = -65.*mV

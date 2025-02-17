@@ -20,7 +20,7 @@ TauP=100
 # 静息时的输入强度
 rest=6
 # 突触的传递时间
-tau_S=0.1
+tau_S=0.5
 
 # units and constants
 # Unified as a standard unit

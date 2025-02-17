@@ -216,21 +216,21 @@ for i in range(1,N_in+1):
     P2_Group.append(globals()['P2_'+str(i)])
 
 G_Group=G1_Group+G2_Group
+
 # 2 Connect the Neurons
-
 # 2.1 For every neuron(front), connect to others(behind) by probability
-
 # 2.2 Record the connected neuron(behind) in the front neuron
+
 for neuron_front in G_Group:
     for neuron_back in G_Group:
         if neuron_front !=neuron_back:
             if np.random.rand()<neuron_front.Probability_Connecting:
                 neuron_front.Connecting_Neuron.append(neuron_back)
+
 # 3 Add the input
-
 # 3.1 Initialize the 200 RS neurons
-
 # 3.2 Connect the input with others
+
 for neuron_front in P2_Group:
     for neuron_back in G_Group:
         if neuron_front !=neuron_back:

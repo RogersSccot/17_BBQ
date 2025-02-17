@@ -12,15 +12,15 @@ import os
 # 总的神经元数量
 Num=100
 # 输入的最大幅值
-AmpStim=80 # 80,92
+AmpStim=200 # 80,92
 # 输入的持续时间
 plat = 1000
 # 输入的噪声强度
 TauP=100
 # 静息时的输入强度
-rest=6
+rest=30
 # 突触的传递时间
-tau_S=20.0
+tau_S=10.0
 
 #########################################################################################
 # units and constants                                                                   #
@@ -305,6 +305,10 @@ for tick_time in np.arange(0, TotTime, dt):
     fire1_result_bin.append(bin_data(fire1_result))
     fire2_result_bin.append(bin_data(fire2_result))
     test_input_index=test_input_index+1
+
+#########################################################################################
+# 6 Plot the results                                                                    #
+#########################################################################################
 
 fig1=plt.figure(figsize=(60,60))
 ax1=fig1.add_subplot(321)

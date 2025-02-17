@@ -20,7 +20,7 @@ TauP=100
 # 静息时的输入强度
 rest=6
 # 突触的传递时间
-tau_S=70.0
+tau_S=3.0
 
 # units and constants
 # Unified as a standard unit
@@ -43,7 +43,7 @@ fire1_num=0
 fire2_num=0
 time_sim=np.arange(0, TotTime, dt)
 # average data analysis
-bin_num=1000
+bin_num=100
 N1=int(Num*0.2)
 N2=int(Num*0.8)
 N_in=int(Num*0.8)
@@ -265,7 +265,7 @@ for ji in t2:
 5.3 Refresh the G_Synapsis_Excitatory
 5.4 Refresh the G_Synapsis_Inhibitory
 5.5 fire
- """
+"""
 
 for tick_time in np.arange(0, TotTime, dt):
     fire_probability=dt*test_input[test_input_index]

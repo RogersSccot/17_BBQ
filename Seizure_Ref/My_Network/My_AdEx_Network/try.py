@@ -40,6 +40,6 @@ import matplotlib.pyplot as plt
 # 组合图片保存路径
 
 # 保存图形
-plt.savefig(output_path)
+# plt.savefig(output_path)
 
-print(f"图片已保存至: {output_path}")
+# print(f"图片已保存至: {output_path}")

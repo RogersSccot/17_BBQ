@@ -307,6 +307,10 @@ for tick_time in np.arange(0, TotTime, dt):
     fire2_result_bin.append(bin_data(fire2_result))
     test_input_index=test_input_index+1
 
+#########################################################################################
+# 6 Plot the results                                                                    #
+#########################################################################################
+
 fig1=plt.figure(figsize=(60,60))
 ax1=fig1.add_subplot(321)
 ax2=fig1.add_subplot(322)

@@ -261,7 +261,7 @@ for tick_time in np.arange(0, TotTime, dt):
         neuron.refresh_G_Synapsis_Excitatory()
         neuron.refresh_G_Synapsis_Inhibitory()
         fire1_num, fire2_num = neuron.judge_fire(fire1_num, fire2_num)
-    neuron1_potential_bin.append(G1_1.V_Neuron)
+    neuron1_potential_bin.append(G1_1.V_Neuron) # type: ignore
     fire1_frequent = fire1_num / dt
     fire2_frequent = fire2_num / dt
     fire1_result.append(fire1_frequent)

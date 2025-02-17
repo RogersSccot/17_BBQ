@@ -1,4 +1,3 @@
-
 #########################################################################################
 # AdEx Network                                                                          #
 # 1.Use numpy only to build the network                                                 #
@@ -332,6 +331,6 @@ ax6.scatter(points_1[1], N2+points_1[0], color='red',s=0.1)
 ax6.scatter(points_2[1], points_2[0], color='green',s=0.1)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-output_folder = os.path.join(current_dir, 'My_AdEx_Network')
+output_folder = os.path.join(current_dir, 'My_AdEx_Plot')
 output_path = os.path.join(output_folder, "All"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_"+str(tau_S)+"_Num_"+str(Num)+".png")
 plt.savefig(output_path)

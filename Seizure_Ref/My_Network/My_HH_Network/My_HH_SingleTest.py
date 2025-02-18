@@ -165,6 +165,7 @@ class AdExNeuron:
         return num1, num2
     def Add_Synapsis(self, Synapsis):
         self.Connecting_Neuron.append(Synapsis)
+
 # Initialize the FS and RS neuron
 # All the parameters are got from the paper
 Fast_Spiking_neuron=AdExNeuron(name="G1_1",V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,

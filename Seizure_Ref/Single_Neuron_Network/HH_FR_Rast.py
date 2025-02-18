@@ -6,12 +6,10 @@ import scipy.fftpack
 
 np.save('C:\Parallel_World\BaiduSyncdisk\My_World\Software_World\BBQ_17\Seizure_Ref\ResultsHH2/HHconnect_seed'+'Try'+'.npy',[1])
 
-
 def bin_array(array, BIN, time_array):
     N0 = int(BIN/(time_array[1]-time_array[0]))
     N1 = int((time_array[-1]-time_array[0])/BIN)
     return array[:N0*N1].reshape((N1,N0)).mean(axis=1)
-
 
 start_scope()
 Cnt=0

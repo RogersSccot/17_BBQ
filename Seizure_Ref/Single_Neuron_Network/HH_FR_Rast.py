@@ -60,7 +60,7 @@ for Nseed in [1]: #[i for i in range(5)]:
             G1 = NeuronGroup(N1, eqs, threshold='V > -10*mV', refractory='V > -50*mV', method='heun')
             # init:
             G1.V = -65 *mV
-            G1.n = 0.0 
+            G1.n = 0.0
             G1.m = 0.0
             G1.h = 0.0
             G1.GsynI =0.0 *nS

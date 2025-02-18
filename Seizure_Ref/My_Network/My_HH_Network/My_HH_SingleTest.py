@@ -124,20 +124,25 @@ class AdExNeuron:
         self.Probability_Connecting = Probability_Connecting
     def refresh_membrane_potential(self):
         if self.T_rest<=0:
-            self.V_Neuron =self.V_Neuron+dt*(self.G_Synapsis_Excitatory*(self.E_Excitatory-self.V_Neuron)+
+            self.V_Neuron =self.V_Neuron+dt*(
+                                        self.G_Synapsis_Excitatory*(self.E_Excitatory-self.V_Neuron)+
                                         self.G_Synapsis_Inhibitory*(self.E_Inhibitory-self.V_Neuron)+
                                         self.G_local*(self.E_local-self.V_Neuron)+
-                                        self.G_local*self.V_disturb*np.exp((self.V_Neuron-self.V_Excitatory_Threshold)/self.V_disturb)-
-                                        self.w_adaptive+self.I_Synapsis
+                                        self.G_Synapsis_K*n_cofficient*n_cofficient*n_cofficient*n_cofficient*(self.E_K-self.V_Neuron)+
+                                        self.G_Synapsis_Na*m_cofficient*m_cofficient*m_cofficient*h_cofficient*(self.E_Na-self.V_Neuron)+
+                                        self.I_Synapsis
                                         )/self.C_Membrane
         else:
             self.T_rest=self.T_rest-dt
     def refresh_w_adaptive(self):
-        self.w_adaptive = self.w_adaptive+dt*(self.a_w_adaptive*(self.V_Neuron-self.E_local)-self.w_adaptive)/self.tau_w_adaptive
+        if self.T_rest<=0:
+            self.w_adaptive = self.w_adaptive+dt*(self.a_w_adaptive*(self.V_Neuron-self.E_local)-self.w_adaptive)/self.tau_w_adaptive
     def refresh_G_Synapsis_Excitatory(self):
-        self.G_Synapsis_Excitatory = self.G_Synapsis_Excitatory-dt*self.G_Synapsis_Excitatory/self.tau_Synapsis
+        if self.T_rest<=0:
+            self.G_Synapsis_Excitatory = self.G_Synapsis_Excitatory-dt*self.G_Synapsis_Excitatory/self.tau_Synapsis
     def refresh_G_Synapsis_Inhibitory(self):
-        self.G_Synapsis_Inhibitory = self.G_Synapsis_Inhibitory-dt*self.G_Synapsis_Inhibitory/self.tau_Synapsis
+        if self.T_rest<=0:
+            self.G_Synapsis_Inhibitory = self.G_Synapsis_Inhibitory-dt*self.G_Synapsis_Inhibitory/self.tau_Synapsis
     def fire(self, num1, num2):
         global fire_matrix
         # refresh self parameter

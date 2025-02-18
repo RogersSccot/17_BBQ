@@ -1,5 +1,5 @@
-import numpy as np
-import matplotlib.pyplot as plt
+# import numpy as np
+# import matplotlib.pyplot as plt
 
 # # 假设我们有一个随机生成的5x5矩阵
 # matrix = np.random.randn(5, 5) * 3  # 生成一些数据，使得有些数可能大于1
@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 
 # # 绘制整个矩阵作为背景
 # plt.imshow(matrix, cmap='coolwarm', interpolation='nearest')
-
-print("hello world")
 
 # # 在矩阵值大于1的位置绘制红点
 # # 首先找到这些点的坐标
@@ -31,10 +29,10 @@ print("hello world")
 
 # # plt.savefig("try.png")
 
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # # 创建一个示例图形
-# plt.plot([1, 2, 3], [4, 5, 6])
+plt.plot([1, 2, 3], [4, 5, 6])
 # plt.title("示例图形")
 
 # 获取当前脚本所在目录，并组合成目标子文件夹路径

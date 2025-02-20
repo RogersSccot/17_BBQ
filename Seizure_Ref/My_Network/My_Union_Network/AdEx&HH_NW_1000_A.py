@@ -12,16 +12,18 @@ import matplotlib.pyplot as plt
 import re
 import os
 import datetime
-
 #########################################################################################
 # units and constants                                                                   #
 # Unified as a standard unit                                                            #
 #########################################################################################
-for tau_S_AdEx in [1,2,3]:
-    for tau_S_HH in [4,6,7]:
-        for T_ref_AdEx in [40]:
-            for T_ref_HH in [40]:
-                print("time: "+str(datetime.datetime.now()))
+
+for tau_S_AdEx in [1, 5, 10]:
+    for tau_S_HH in [1, 5, 10]:
+        for T_ref_AdEx in [5, 15, 40]:
+            for T_ref_HH in [5, 15, 40]:
+                # 输出当前时间
+                print(datetime.datetime.now())
+
                 # 总的神经元数量
                 Num=1000
                 # 输入的最大幅值
@@ -33,14 +35,14 @@ for tau_S_AdEx in [1,2,3]:
                 # 静息时的输入强度
                 rest=8
                 # # AdEx突触的传递时间
-                # tau_S_AdEx=2
+                # tau_S_AdEx=6
                 # # AdEx耐火时间，不应期
-                # T_ref_AdEx=10
+                # T_ref_AdEx=40
                 # # AdEx突触的传递时间
                 # tau_S_HH=2
                 # # HH耐火时间，不应期
-                # T_ref_HH=10
-
+                # T_ref_HH=40
+                
                 ms=1e-3
                 mV=1e-3
                 mA=1e-3
@@ -48,7 +50,7 @@ for tau_S_AdEx in [1,2,3]:
                 pA=1e-12
                 nS=1e-9
                 pF=1e-12
-
+                
                 # whole world time
                 tick_time=0
                 # minium gap time3
@@ -86,13 +88,13 @@ for tau_S_AdEx in [1,2,3]:
                 global fire_matrix1, fire_matrix2
                 fire_matrix1=np.zeros((N1, len(time_sim)))
                 fire_matrix2=np.zeros((N2, len(time_sim)))
-
+                
                 def bin_data(data):
                     try:    
                         return np.mean(data[len(data)-bin_num:len(data)])
                     except:
                         return data[len(data)-1]
-
+                
                 def extract_number_from_string(s):
                     match = re.search(r'_(\d+)$', s)
                     if match:
@@ -103,9 +105,9 @@ for tau_S_AdEx in [1,2,3]:
                 # AdEx neuron model                                                                     #
                 # define its characteristic parameter                                                   #
                 #########################################################################################
-
+                
                 class AdExNeuron:
-                    def __init__(self, name, V_Neuron, w_adaptive, G_Synapsis_Excitatory, G_Synapsis_Inhibitory, 
+                    def __init__(self, name, position, V_Neuron, w_adaptive, G_Synapsis_Excitatory, G_Synapsis_Inhibitory, 
                                  E_Excitatory, E_Inhibitory, E_local, G_local, V_disturb, V_Excitatory_Threshold,C_Membrane, 
                                  a_w_adaptive, tau_w_adaptive,
                                  tau_Synapsis,
@@ -115,6 +117,7 @@ for tau_S_AdEx in [1,2,3]:
                         # variable parameters
                         self.name = name
                         self.V_Neuron = V_Neuron
+                        self.position = position
                         self.w_adaptive = w_adaptive
                         self.G_Synapsis_Excitatory = G_Synapsis_Excitatory
                         self.G_Synapsis_Inhibitory = G_Synapsis_Inhibitory
@@ -190,26 +193,26 @@ for tau_S_AdEx in [1,2,3]:
                         return num1, num2
                     def Add_Synapsis(self, Synapsis):
                         self.Connecting_Neuron.append(Synapsis)
-
+                
                 # Initialize the FS and RS neuron
                 # All the parameters are got from the paper
-                AdEx_FS_neuron=AdExNeuron(name="Ex_A1_1",V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
+                AdEx_FS_neuron=AdExNeuron(name="Ex_A1_1",V_Neuron=-65*mV, position=(0,0), w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=0.5*mV, V_Excitatory_Threshold=-48*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.05)
-                AdEx_RS_neuron=AdExNeuron(name="Ex_A2_1",V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
+                AdEx_RS_neuron=AdExNeuron(name="Ex_A2_1",V_Neuron=-65*mV, position=(0,0), w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=2*mV, V_Excitatory_Threshold=-50*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1000.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
-
+                
                 class HHNeuron:
-                    def __init__(self, name, V_Neuron, G_Synapsis_Excitatory, G_Synapsis_Inhibitory, 
+                    def __init__(self, name, position, V_Neuron, G_Synapsis_Excitatory, G_Synapsis_Inhibitory, 
                                  E_Excitatory, E_Inhibitory, E_local, G_local, V_Excitatory_Threshold,C_Membrane, 
                                  tau_Synapsis,
                                  V_Reset_Threshold, V_Reset,
@@ -220,6 +223,7 @@ for tau_S_AdEx in [1,2,3]:
                         # variable parameters
                         self.name = name
                         self.V_Neuron = V_Neuron
+                        self.position = position
                         self.G_Synapsis_Excitatory = G_Synapsis_Excitatory
                         self.G_Synapsis_Inhibitory = G_Synapsis_Inhibitory
                         # fixed parameters
@@ -304,10 +308,10 @@ for tau_S_AdEx in [1,2,3]:
                         return num1, num2
                     def Add_Synapsis(self, Synapsis):
                         self.Connecting_Neuron.append(Synapsis)
-
+                
                 # Initialize the FS and RS neuron
                 # All the parameters are got from the paper
-                HH_FS_neuron=HHNeuron(name="Ex_H1_1", V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
+                HH_FS_neuron=HHNeuron(name="Ex_H1_1", V_Neuron=-65*mV, position=(0,0), G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
                                                 E_Excitatory=0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_Excitatory_Threshold=-50*mV,C_Membrane=200*pF, 
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
@@ -315,7 +319,7 @@ for tau_S_AdEx in [1,2,3]:
                                                 Connecting_Neuron=[], Q_Synapsis=5*nS, Probability_Connecting=0.05,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
-                HH_RS_neuron=HHNeuron(name="Ex_H2_1", V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
+                HH_RS_neuron=HHNeuron(name="Ex_H2_1", V_Neuron=-65*mV, position=(0,0), G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
                                                 E_Excitatory=0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=15*nS, V_Excitatory_Threshold=-48*mV,C_Membrane=200*pF, 
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
@@ -323,7 +327,7 @@ for tau_S_AdEx in [1,2,3]:
                                                 Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
-
+                
                 #########################################################################################
                 # Build the network                                                                     #
                 # 1 Initialize the enough neurons                                                       #
@@ -331,10 +335,37 @@ for tau_S_AdEx in [1,2,3]:
                 # (1)N1 2000 FS G1 Qi                                                                   #
                 # (2)N2 8000 RS G2 Qe                                                                   #
                 # (3)P2 8000 RS G2 Qe                                                                   #
+                # 1.2 scatter the equal num if neurons to the two groups                                #
+                # 1.3 build the plane structure                                                         #
+                # 1.4 endow the point position to each neuron                                           #
+                # 1.5 based on the position, calculate the connect probability between each neuron      #
                 #########################################################################################
-
+                
+                # inner circle
+                r_inner = 0.5
+                r_outer = 1
+                r1 = np.random.uniform(0, 0.5, N1_H+N2_H)
+                r2 = np.random.uniform(0.5, 1, N1_A+N2_A)
+                theta1 = 2 * np.pi * np.random.rand(N1_H+N2_H)
+                theta2 = 2 * np.pi * np.random.rand(N1_A+N2_A)
+                point_inner=np.column_stack((r1 * np.cos(theta1), r1 * np.sin(theta1)))
+                point_outer=np.column_stack((r2 * np.cos(theta2), r2 * np.sin(theta2)))
+                point_all=np.row_stack((point_inner, point_outer))
+                # 计算所有点之间的平均距离
+                distance = 0
+                s=0
+                for i in range(Num):
+                    for j in range(Num):
+                        s+=1
+                        distance += np.linalg.norm(point_all[i,:] - point_all[j,:])
+                # 计算平均距离
+                average_distance = distance/s
+                print("Average distance between neurons: ", average_distance)
+                
+                
+                # 外环抑制性神经元 AdEx
                 for i in range(1,N1_A+1):
-                    globals()['A1_'+str(i)]=AdExNeuron(name="A1_"+str(i),V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
+                    globals()['A1_'+str(i)]=AdExNeuron(name="A1_"+str(i), position=point_outer[i-1,:], V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=0.5*mV, V_Excitatory_Threshold=-48*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
@@ -342,9 +373,10 @@ for tau_S_AdEx in [1,2,3]:
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.05)
                     A1_Group.append(globals()['A1_'+str(i)])
-
+                
+                # 外环兴奋性神经元 AdEx
                 for i in range(1,N2_A+1):
-                    globals()['A2_'+str(i)]=AdExNeuron(name="A2_"+str(i),V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
+                    globals()['A2_'+str(i)]=AdExNeuron(name="A2_"+str(i), position=point_outer[N1_A+i-1,:],V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=2*mV, V_Excitatory_Threshold=-50*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1000.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
@@ -352,9 +384,10 @@ for tau_S_AdEx in [1,2,3]:
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
                     A2_Group.append(globals()['A2_'+str(i)])
-
+                
+                # 内环抑制性神经元 HH
                 for i in range(N1_A+1,N1_A+N1_H+1):
-                    globals()['H1_'+str(i)]=HHNeuron(name="H1_"+str(i), V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
+                    globals()['H1_'+str(i)]=HHNeuron(name="H1_"+str(i), position=point_inner[i-1-N1_A,:], V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
                                                 E_Excitatory=0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_Excitatory_Threshold=-50*mV,C_Membrane=200*pF, 
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
@@ -363,9 +396,10 @@ for tau_S_AdEx in [1,2,3]:
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                     H1_Group.append(globals()['H1_'+str(i)])
-
+                
+                # 内环兴奋性神经元 HH
                 for i in range(N2_A+1,N2_A+N2_H+1):
-                    globals()['H2_'+str(i)]=HHNeuron(name="H2_"+str(i), V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
+                    globals()['H2_'+str(i)]=HHNeuron(name="H2_"+str(i), position=point_inner[i-1+N1_H-N2_A,:], V_Neuron=-65*mV, G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
                                                 E_Excitatory=0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=15*nS, V_Excitatory_Threshold=-48*mV,C_Membrane=200*pF, 
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
@@ -374,9 +408,9 @@ for tau_S_AdEx in [1,2,3]:
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                     H2_Group.append(globals()['H2_'+str(i)])
-
+                
                 for i in range(1,N_in+1):
-                    globals()['P2_'+str(i)]=AdExNeuron(name="P2_"+str(i),V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
+                    globals()['P2_'+str(i)]=AdExNeuron(name="P2_"+str(i), position=(0,0),V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=2*mV, V_Excitatory_Threshold=-50*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1000.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
@@ -384,37 +418,59 @@ for tau_S_AdEx in [1,2,3]:
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
                     P2_Group.append(globals()['P2_'+str(i)])
-
+                A_Group=A1_Group+A2_Group
+                H_Group=H1_Group+H2_Group
                 G_Group=A1_Group+A2_Group+H1_Group+H2_Group
-
+                # 绘制图像
+                # fig, ax = plt.subplots(figsize=(30, 30))
+                # circle1 = plt.Circle((0, 0), 0.5, color='blue', fill=False, label='Inner Circle')
+                # circle2 = plt.Circle((0, 0), 1, color='red', fill=False, label='Outer Circle')
+                # ax.add_artist(circle1)
+                # ax.add_artist(circle2)
+                
                 #########################################################################################
                 # 2 Connect the Neurons                                                                 #
                 # 2.1 For every neuron(front), connect to others(behind) by probability                 #
                 # 2.2 Record the connected neuron(behind) in the front neuron                           #
                 #########################################################################################
-
+                
                 for neuron_front in G_Group:
                     for neuron_back in G_Group:
                         if neuron_front !=neuron_back:
-                            if np.random.rand()<neuron_front.Probability_Connecting:
+                            Probability=neuron_front.Probability_Connecting*np.exp(-min(np.linalg.norm(neuron_front.position-neuron_back.position)/average_distance,10))
+                            if np.random.rand()<Probability:
+                                # ax.plot([neuron_front.position[0], neuron_back.position[0]], [neuron_front.position[1], neuron_back.position[1]], color='black', linewidth=0.05)
                                 neuron_front.Connecting_Neuron.append(neuron_back)
-
+                
                 #########################################################################################
                 # 3 Add the input                                                                       #
                 # 3.1 Initialize the 200 RS neurons                                                     #
                 # 3.2 Connect the input with others                                                     #
                 #########################################################################################
-
+                
                 for neuron_front in P2_Group:
                     for neuron_back in G_Group:
                         if neuron_front !=neuron_back:
                             if np.random.rand()<neuron_front.Probability_Connecting:
                                 neuron_front.Connecting_Neuron.append(neuron_back)
-
+                # # 绘制点
+                # for neuron_A in A_Group:
+                #     ax.scatter(neuron_A.position[0], neuron_A.position[1], c='green', s=100)
+                # for neuron_H in H_Group:
+                #     ax.scatter(neuron_H.position[0], neuron_H.position[1], c='orange', s=100)
+                
+                # # 设置等比例轴
+                # ax.set_aspect('equal')
+                # ax.legend()
+                # plt.xlim(-1.1, 1.1)
+                # plt.ylim(-1.1, 1.1)
+                # plt.show()
+                
+                
                 #########################################################################################
                 # 4 Generate the input data                                                             #
                 #########################################################################################
-
+                
                 def heaviside(x):
                     return 0.5 * (1 + np.sign(x))
                 def input_rate(t, t1_exc, tau1_exc, tau2_exc, ampl_exc, plateau):
@@ -432,7 +488,7 @@ for tau_S_AdEx in [1,2,3]:
                 # 将时间点，噪声，输入刺激，输入刺激的平台期产生对应时间的脉冲
                 for ji in t2:
                     test_input.append(rest+input_rate(ji, 2000., TauP, TauP, AmpStim-rest, plat))
-
+                
                 #########################################################################################
                 # 5 Run the simulations                                                                 #
                 # 5.1 Refresh the membrane potential                                                    #
@@ -441,7 +497,7 @@ for tau_S_AdEx in [1,2,3]:
                 # 5.4 Refresh the G_Synapsis_Inhibitory                                                 #
                 # 5.5 fire                                                                              #
                 #########################################################################################
-
+                
                 for tick_time in np.arange(0, TotTime, dt):
                     fire_probability=dt*test_input[test_input_index]
                     if test_input_index%5000==0:
@@ -473,18 +529,18 @@ for tau_S_AdEx in [1,2,3]:
                 ax4=fig1.add_subplot(324)
                 ax5=fig1.add_subplot(325)
                 ax6=fig1.add_subplot(326)
-
+                
                 ax1.plot(time_sim, neuron1_potential_bin)
                 ax2.plot(time_sim, neuron2_potential_bin)
-
+                
                 ax3.plot(time_sim[10000:40000], test_input[10000:40000])
                 ax4.plot(time_sim[10000:40000], fire1_result_bin[10000:40000])
                 ax4.plot(time_sim[10000:40000], fire2_result_bin[10000:40000])
-
+                
                 ax5.plot(time_sim[10000:40000], test_input[10000:40000])
                 ax5.plot(time_sim[10000:40000], fire1_result_bin[10000:40000])
                 ax5.plot(time_sim[10000:40000], fire2_result_bin[10000:40000])
-
+                
                 points_1 = np.where(fire_matrix1 > 1)
                 points_2 = np.where(fire_matrix2 > 1)
                 ax6.scatter(points_1[1], N2+points_1[0], color='red',s=0.01)
@@ -492,8 +548,8 @@ for tau_S_AdEx in [1,2,3]:
 
                 current_dir = os.path.dirname(os.path.abspath(__file__))
                 output_folder = os.path.join(current_dir, 'My_Union_Plot')
-                output_path = os.path.join(output_folder, "All"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+".png")
-                # output_path='My_Union_Plot/'+"All"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+".png"
+                output_path = os.path.join(output_folder, "All"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+"A.png")
+                # output_path='My_Union_Plot/'+"All"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+"A.png"
                 plt.savefig(output_path)
 
                 fig2=plt.figure(figsize=(20,10))
@@ -501,8 +557,9 @@ for tau_S_AdEx in [1,2,3]:
                 points_g = np.where(fire_matrix2[:,21000:25000] > 1)
                 plt.scatter(points_r[1], N2+points_r[0], color='red',s=0.1)
                 plt.scatter(points_g[1], points_g[0], color='green',s=0.1)
+
                 current_dir = os.path.dirname(os.path.abspath(__file__))
                 output_folder = os.path.join(current_dir, 'My_Union_Plot')
-                output_path = os.path.join(output_folder, "Micro"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+".png")
-                # output_path='My_Union_Plot/'+"Micro"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+".png"
+                output_path = os.path.join(output_folder, "Micro"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+"A.png")
+                # output_path='My_Union_Plot/'+"Micro"+"_rest_"+str(rest)+"_AmpStim_"+str(AmpStim)+"_TauP_"+str(TauP)+"_tau_S_"+str(tau_S_AdEx)+"_"+str(tau_S_HH)+"_T_ref_"+str(T_ref_AdEx)+"_"+str(T_ref_HH)+"_Num_"+str(Num)+"A.png"
                 plt.savefig(output_path)

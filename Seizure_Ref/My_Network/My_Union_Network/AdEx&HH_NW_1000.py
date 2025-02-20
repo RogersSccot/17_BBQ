@@ -62,10 +62,10 @@ for tau_S_AdEx in [1,2,3]:
                 bin_num=1000
                 N1=int(Num*0.2)
                 N2=int(Num*0.8)
-                N1_A=int(N1*0.25)
-                N1_H=int(N1*0.75)
-                N2_A=int(N2*0.25)
-                N2_H=int(N2*0.75)
+                N1_A=int(N1*0.75)
+                N1_H=int(N1*0.25)
+                N2_A=int(N2*0.75)
+                N2_H=int(N2*0.25)
                 N_in=int(N2)
                 # create neurons
                 A1_Group=[]
@@ -409,7 +409,6 @@ for tau_S_AdEx in [1,2,3]:
                         if neuron_front !=neuron_back:
                             if np.random.rand()<neuron_front.Probability_Connecting:
                                 neuron_front.Connecting_Neuron.append(neuron_back)
-
 
                 #########################################################################################
                 # 4 Generate the input data                                                             #

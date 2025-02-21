@@ -17,10 +17,10 @@ import datetime
 # Unified as a standard unit                                                            #
 #########################################################################################
 
-for tau_S_AdEx in [1, 5, 10]:
-    for tau_S_HH in [1, 5, 10]:
-        for T_ref_AdEx in [5, 15, 40]:
-            for T_ref_HH in [5, 15, 40]:
+for tau_S_AdEx in [3,5,7]:
+    for tau_S_HH in [0.5,1,2]:
+        for T_ref_AdEx in [30,40.50]:
+            for T_ref_HH in [30,40,50]:
                 # 输出当前时间
                 print(datetime.datetime.now())
 
@@ -101,6 +101,7 @@ for tau_S_AdEx in [1, 5, 10]:
                         return int(match.group(1))
                     else:
                         return None
+                    
                 #########################################################################################    
                 # AdEx neuron model                                                                     #
                 # define its characteristic parameter                                                   #

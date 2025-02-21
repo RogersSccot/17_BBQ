@@ -17,23 +17,23 @@ import datetime
 # Unified as a standard unit                                                            #
 #########################################################################################
 
-for tau_S_AdEx in [3,5,7]:
-    for tau_S_HH in [0.5,1,2]:
-        for T_ref_AdEx in [30,40.50]:
-            for T_ref_HH in [30,40,50]:
+for tau_S_AdEx in [0.5,1,1.5,2]:
+    for tau_S_HH in [5,6,7,8]:
+        for T_ref_AdEx in [10]:
+            for T_ref_HH in [10]:
                 # 输出当前时间
                 print(datetime.datetime.now())
 
                 # 总的神经元数量
                 Num=1000
                 # 输入的最大幅值
-                AmpStim=100 # 80,92
+                AmpStim=80 # 80,92
                 # 输入的持续时间
                 plat = 1000
                 # 输入的噪声强度
                 TauP=100
                 # 静息时的输入强度
-                rest=8
+                rest=6
                 # # AdEx突触的传递时间
                 # tau_S_AdEx=6
                 # # AdEx耐火时间，不应期
@@ -203,14 +203,14 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
-                                                Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.05)
+                                                Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.25)
                 AdEx_RS_neuron=AdExNeuron(name="Ex_A2_1",V_Neuron=-65*mV, position=(0,0), w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=2*mV, V_Excitatory_Threshold=-50*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1000.0*ms,
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
-                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
+                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.25)
                 
                 class HHNeuron:
                     def __init__(self, name, position, V_Neuron, G_Synapsis_Excitatory, G_Synapsis_Inhibitory, 
@@ -317,7 +317,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
                                                 I_Synapsis=0.0*nA, T_refractory=T_ref_HH*ms, T_rest=0,
-                                                Connecting_Neuron=[], Q_Synapsis=5*nS, Probability_Connecting=0.05,
+                                                Connecting_Neuron=[], Q_Synapsis=5*nS, Probability_Connecting=0.25,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                 HH_RS_neuron=HHNeuron(name="Ex_H2_1", V_Neuron=-65*mV, position=(0,0), G_Synapsis_Excitatory=0, G_Synapsis_Inhibitory=0, 
@@ -325,7 +325,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
                                                 I_Synapsis=0.0*nA, T_refractory=T_ref_HH*ms, T_rest=0,
-                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05,
+                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.25,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                 
@@ -361,7 +361,7 @@ for tau_S_AdEx in [3,5,7]:
                         distance += np.linalg.norm(point_all[i,:] - point_all[j,:])
                 # 计算平均距离
                 average_distance = distance/s
-                print("Average distance between neurons: ", average_distance)
+                # print("Average distance between neurons: ", average_distance)
                 
                 
                 # 外环抑制性神经元 AdEx
@@ -372,7 +372,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
-                                                Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.05)
+                                                Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=0.25)
                     A1_Group.append(globals()['A1_'+str(i)])
                 
                 # 外环兴奋性神经元 AdEx
@@ -383,7 +383,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
-                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
+                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.25)
                     A2_Group.append(globals()['A2_'+str(i)])
                 
                 # 内环抑制性神经元 HH
@@ -393,7 +393,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
                                                 I_Synapsis=0.0*nA, T_refractory=T_ref_HH*ms, T_rest=0,
-                                                Connecting_Neuron=[], Q_Synapsis=5*nS, Probability_Connecting=0.05,
+                                                Connecting_Neuron=[], Q_Synapsis=5*nS, Probability_Connecting=0.25,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                     H1_Group.append(globals()['H1_'+str(i)])
@@ -405,7 +405,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_HH*ms,
                                                 V_Reset_Threshold=-10*mV, V_Reset=-65*mV,
                                                 I_Synapsis=0.0*nA, T_refractory=T_ref_HH*ms, T_rest=0,
-                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05,
+                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.25,
                                                 G_Synapsis_K=6000*nS, G_Synapsis_Na=20000*nS, E_K=-90*mV, E_Na=55*mV,
                                                 n_coefficient=0, m_coefficient=0, h_coefficient=0)
                     H2_Group.append(globals()['H2_'+str(i)])
@@ -417,7 +417,7 @@ for tau_S_AdEx in [3,5,7]:
                                                 tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
-                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.05)
+                                                Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=0.25)
                     P2_Group.append(globals()['P2_'+str(i)])
                 A_Group=A1_Group+A2_Group
                 H_Group=H1_Group+H2_Group
@@ -503,7 +503,7 @@ for tau_S_AdEx in [3,5,7]:
                     fire_probability=dt*test_input[test_input_index]
                     if test_input_index%5000==0:
                         print(test_input_index)
-                        print("fire_probability:"+str(fire_probability))
+                        # print("fire_probability:"+str(fire_probability))
                     for neuron in P2_Group:
                         if np.random.rand()<fire_probability:
                             neuron.fire(0,0)

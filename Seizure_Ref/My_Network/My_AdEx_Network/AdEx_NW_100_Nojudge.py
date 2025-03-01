@@ -10,7 +10,7 @@ import re
 import os
 
 # 总的神经元数量
-Num=100
+Num=256
 # 输入的最大幅值
 AmpStim=200 # 80,92
 # 输入的持续时间

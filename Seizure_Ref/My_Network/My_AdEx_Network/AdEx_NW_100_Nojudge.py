@@ -26,12 +26,12 @@ rest=6
 for tau_S_AdEx in [0.2,0.3,0.4,0.5,0.6,1,2,4,6]:
     for tau_S_HH in [0.2]:
         for CP in [0.05,0.1,0.15,0.2,0.25]:
-            for T_ref_HH in [0.5]:
+            for T_ref_AdEx in [1,2,4,6,8,10]:
 
                 # 输出当前时间
                 print(datetime.datetime.now())
 
-                T_ref_AdEx=0.5
+                T_ref_HH=0.5
                 #########################################################################################
                 # units and constants                                                                   #
                 # Unified as a standard unit                                                            #
@@ -181,14 +181,14 @@ for tau_S_AdEx in [0.2,0.3,0.4,0.5,0.6,1,2,4,6]:
                 Fast_Spiking_neuron=AdExNeuron(name="G1_1",V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=0.5*mV, V_Excitatory_Threshold=-48*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1.0*ms,
-                                                tau_Synapsis=5.0*ms,
+                                                tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=5.0*nS, Probability_Connecting=CP)
                 Regular_Spiking_neuron=AdExNeuron(name="G2_1",V_Neuron=-65*mV, w_adaptive=0.0*pA, G_Synapsis_Excitatory=0.0*nS, G_Synapsis_Inhibitory=0.0*nS,
                                                 E_Excitatory=0.0*mV, E_Inhibitory=-80*mV, E_local=-65*mV, G_local=10*nS, V_disturb=2*mV, V_Excitatory_Threshold=-50*mV, C_Membrane=200*pF,
                                                 a_w_adaptive=0.0*nS, tau_w_adaptive=1000.0*ms,
-                                                tau_Synapsis=5.0*ms,
+                                                tau_Synapsis=tau_S_AdEx*ms,
                                                 V_Reset_Threshold=-47.5*mV, V_Reset=-65*mV, b_w_adaptive=0.0*pA,
                                                 I_Synapsis=0.0*pA, T_refractory=T_ref_AdEx*ms, T_rest=0*ms,
                                                 Connecting_Neuron=[], Q_Synapsis=1.5*nS, Probability_Connecting=CP)

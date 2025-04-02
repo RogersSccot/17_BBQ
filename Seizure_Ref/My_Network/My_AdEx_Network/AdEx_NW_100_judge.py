@@ -68,7 +68,7 @@ fire_matrix1=np.zeros((N1, len(time_sim)))
 fire_matrix2=np.zeros((N2, len(time_sim)))
 
 def bin_data(data):
-    try:    
+    try:
         return np.mean(data[len(data)-bin_num:len(data)])
     except:
         return data[len(data)-1]

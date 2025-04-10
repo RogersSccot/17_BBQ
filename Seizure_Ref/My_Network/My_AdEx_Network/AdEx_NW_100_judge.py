@@ -238,9 +238,11 @@ for neuron_front in G_Group:
             if np.random.rand()<neuron_front.Probability_Connecting:
                 neuron_front.Connecting_Neuron.append(neuron_back)
 
-# 3 Add the input
-# 3.1 Initialize the 200 RS neurons
-# 3.2 Connect the input with others
+#########################################################################################
+# 3 Add the input                                                                       #
+# 3.1 Initialize the 200 RS neurons                                                     #
+# 3.2 Connect the input with others                                                     #
+#########################################################################################
 
 for neuron_front in P2_Group:
     for neuron_back in G_Group:
